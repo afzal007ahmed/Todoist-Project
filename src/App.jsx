@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "antd";
 import { MenuFoldOutlined } from "@ant-design/icons";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 import Inbox from "./components/Inbox/Inbox.jsx";
 import SideBar from "./SideBar.jsx";
 import { Projects } from "./components/Projects/Projects.jsx";
@@ -14,9 +14,8 @@ function App() {
   let initialstate = {
     projectsData: [],
     tasksData: [],
-    sideBarCollapse: false,
   };
-
+  const [ sideBarCollapse , setsideBarCollapse ] = useState( false ) ; 
   function reduce(state, action) {
     switch (action.type) {
       case "set_projects":
@@ -27,6 +26,16 @@ function App() {
         return { ...state , sideBarCollapse : !state.sideBarCollapse } ;
       case "add_task":
         return { ...state , tasksData : action.payload } ;
+      case "delete_project" :
+        return {... state , projectsData : action.payload } ;
+      case "update_project" :
+        return { ...state , projectsData : action.payload } ;
+      case "update_task" :
+        return {...state , tasksData : action.payload } ;
+      case "delete_task" :
+        return {...state , tasksData : action.payload } ;
+      case "add_project" :
+        return {...state , projectsData : action.payload } ;
     }
   }
   const [state, dispatch] = useReducer(reduce, initialstate);
@@ -65,14 +74,15 @@ function App() {
             projectsData={state.projectsData}
             dispatch={dispatch}
             todoistObj={todoistObj}
-            sideBarCollapse={state.sideBarCollapse}
+            sideBarCollapse={sideBarCollapse}
+            setsideBarCollapse = { setsideBarCollapse }
             tasksData={state.tasksData}
           />
           <div style={{ paddingTop: "15px", paddingLeft: "10px" }}>
             <MenuFoldOutlined
               onClick={(e) => {
                 e.stopPropagation();
-                dispatch({ type : "side_bar_collapse"})
+                setsideBarCollapse((prev) => !prev);
               }}
             />
           </div>
@@ -85,7 +95,7 @@ function App() {
                     projectData={state.projectsData}
                     tasksData={state.tasksData}
                     dispatch= {dispatch}
-                    todoistObj={state.todoistObj}
+                    todoistObj={todoistObj}
                   />
                 </>
               }
@@ -97,7 +107,7 @@ function App() {
                   <Projects
                     projectsData={state.projectsData}
                     dispatch={dispatch}
-                    todoistObj={state.todoistObj}
+                    todoistObj={todoistObj}
                   />
                 </>
               }
@@ -111,7 +121,7 @@ function App() {
                     projectData={state.projectsData}
                     tasksData={state.tasksData}
                     dispatch={dispatch}
-                    todoistObj={state.todoistObj}
+                    todoistObj={todoistObj}
                   />
                 </>
               }

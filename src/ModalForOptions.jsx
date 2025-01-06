@@ -4,11 +4,11 @@ import { useState } from "react";
 const ModalForOptions = ({
   children,
   projectsData,
-  setProjectsData,
   item,
+  dispatch,
   todoistObj,
 }) => {
-
+  console.log( "modalforoptions" , dispatch ) ;
   const [ openModal , setopenModal ] = useState( false ) ;  
 
   
@@ -18,7 +18,7 @@ const ModalForOptions = ({
     todoistObj
       .deleteProject(item.id)
       .then(() => { 
-        setProjectsData(temp)})
+        dispatch({ type : "delete_project" , payload : temp}) } )
       .catch((err) => console.log(err));
   }
 
@@ -35,7 +35,7 @@ const ModalForOptions = ({
           }
           return i;
          });
-        setProjectsData(temp);
+         dispatch({type : "update_project" , payload : temp }) ;
       })
       .catch((err) => console.log(err));
   }
@@ -50,7 +50,7 @@ const ModalForOptions = ({
     .then(( data ) => {
         let tempData = projectsData.filter((i) => i.id != item.id) ;
         tempData = [...tempData , data ] ;
-        setProjectsData( tempData ) ;
+        dispatch({type  :"update_project" , payload : tempData } ) ;
     })
   }
   return (
@@ -76,7 +76,7 @@ const ModalForOptions = ({
         item={item}
         todoistObj={todoistObj}
         projectsData={projectsData}
-        setProjectsData={setProjectsData}
+        dispatch = {dispatch}
       />
     </>
   );

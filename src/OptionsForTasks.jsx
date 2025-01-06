@@ -4,10 +4,10 @@ import { useState } from "react";
 const OptionsForTasks = ({
   children,
   selectedtask,
-  setTasksData,
+  dispatch ,
   todoistObj,
-  tasksData,
-}) => {
+  tasksData}
+) => {
     const [ taskname , settaskname ] = useState('' || selectedtask.content) ;
     const [ taskdesc , settaskdesc ] = useState( '' || selectedtask.description);
     const [mode , setmode ] = useState(false) ;
@@ -18,7 +18,9 @@ const OptionsForTasks = ({
       todoistObj.updateTask( selectedtask.id , temp ) 
       .then(( data ) => {
         let tempData = tasksData.map(( item ) => item.id == selectedtask.id ? data : item )
-        setTasksData( tempData ) ; 
+        settaskname('') ;
+        settaskdesc('') ;
+        dispatch({ type : "update_task" , payload :  tempData  }) ;
       })
       setmode( false ) ;
     }
@@ -27,7 +29,7 @@ const OptionsForTasks = ({
         todoistObj.deleteTask(selectedtask.id  )
         .then(() => {
             let newData = tasksData.filter((item) => item.id != selectedtask.id) ;
-            setTasksData( newData ) ;
+            dispatch({ type : "delete_task" , payload : newData } ) ;
         })
         .catch(( err ) => console.log( err ) ) ;
         setmode( false ) ;

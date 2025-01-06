@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ModalForOptions from "../../ModalForOptions";
 import ModalElementAddProject from "../../ModalElementAddProject";
-export const Projects = ({ projectsData , setProjectsData , todoistObj}) => {
+export const Projects = ({ projectsData , dispatch , todoistObj}) => {
   let tempData = [...projectsData];
   const [ open , setopen ] = useState( false ) ;
   let navigate = useNavigate();
@@ -75,9 +75,10 @@ export const Projects = ({ projectsData , setProjectsData , todoistObj}) => {
                       <>
                         <ModalForOptions
                           projectsData={projectsData}
-                          setProjectsData={setProjectsData}
                           item={item}
+                          dispatch={dispatch}
                           todoistObj={todoistObj}
+
                         >
                           <EllipsisOutlined style={{ fontSize: "1.5rem" }} onClick={(e) => { e.stopPropagation()}}/>
                         </ModalForOptions>

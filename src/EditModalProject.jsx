@@ -7,8 +7,9 @@ const EditModalProject = ({
   item,
   todoistObj,
   projectsData,
-  setProjectsData,
+  dispatch
 }) => {
+  console.log( "Editmodalproject" , dispatch ) ;
   const [inputValue, setinputValue] = useState(item.name || "");
   const [color, setcolor] = useState(item.color || "charcoal");
   const [ checked , setchecked ] = useState( false ) ;
@@ -33,7 +34,7 @@ const EditModalProject = ({
           i.id === item.id ? data : i
         );
         console.log( data.color ) ;
-        setProjectsData(updatedProjects);
+        dispatch({type : "update_project" , payload : updatedProjects } ) ;
       })
       .catch((err) => console.log(err));
   }

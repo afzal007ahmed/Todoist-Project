@@ -2,10 +2,10 @@ import { Modal, Button, Select, Switch } from "antd";
 import { useState } from "react";
 const ModalElementAddProject = ({
   open2,
-  setProjectsData,
   todoistObj,
   projectsData,
   setopen2,
+  dispatch
 }) => {
   const [projectName, setProjectName] = useState("");
   const [projectColor, setProjectColor] = useState("charcoal");
@@ -34,7 +34,7 @@ const ModalElementAddProject = ({
         console.log(data);
         let temp = [...projectsData, data];
         console.log(temp);
-        setProjectsData(temp);
+        dispatch({ type : "add_project" , payload : temp } ) ;
       })
       .catch((err) => {
         console.log(err);

@@ -25,7 +25,7 @@ const ModalElement = ({ open, tasksData , dispatch , setopen , projectData  , to
     console.log( addTaskObj ) ;
     todoistObj.addTask( addTaskObj )
     .then((data) => { 
-      let tempData = { ...tasksData ,  data } ;
+      let tempData = [ ...tasksData ,  data ] ;
       dispatch({ type : "add_task" , payload : tempData } ) ;
     }) 
     .catch(( err ) => {

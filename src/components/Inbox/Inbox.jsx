@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import { EllipsisOutlined } from "@ant-design/icons";
 import OptionsForTasks from "../../OptionsForTasks";
-const Inbox = ({ projectData, tasksData , setTasksData ,todoistObj}) => {
+const Inbox = ({ projectData, tasksData, dispatch, todoistObj }) => {
   let tempData = [...projectData];
   let projectIds = [];
 
@@ -26,7 +26,6 @@ const Inbox = ({ projectData, tasksData , setTasksData ,todoistObj}) => {
         padding: "30px",
         margin: "auto",
         marginTop: "0px",
-
       }}
     >
       {" "}
@@ -44,30 +43,36 @@ const Inbox = ({ projectData, tasksData , setTasksData ,todoistObj}) => {
                 borderRadius: "0px",
                 paddingBottom: "9px",
                 padding: "0px",
-                border : 'none' ,
+                border: "none",
                 height: "inherit",
               }}
+              key = {item.id}
             >
               <div
                 style={{
                   borderColor: "lightgrey",
-                  display : 'flex',
-                  justifyContent : 'space-between'
+                  display: "flex",
+                  justifyContent: "space-between",
                 }}
               >
                 <div>
-                {item.content}
-                <p
-                  style={{
-                    marginTop: "4px",
-                    fontSize: "0.85rem",
-                    color: "grey",
-                  }}
-                >
-                  {item.description}
-                </p>
+                  {item.content}
+                  <p
+                    style={{
+                      marginTop: "4px",
+                      fontSize: "0.85rem",
+                      color: "grey",
+                    }}
+                  >
+                    {item.description}
+                  </p>
                 </div>
-                <OptionsForTasks selectedtask = { item } setTasksData = {setTasksData} todoistObj = {todoistObj} tasksData = {tasksData}>
+                <OptionsForTasks
+                  selectedtask={item}
+                  dispatch={dispatch}
+                  todoistObj={todoistObj}
+                  tasksData={tasksData}
+                >
                   <EllipsisOutlined
                     style={{ fontSize: "1.5rem" }}
                     onClick={(e) => {

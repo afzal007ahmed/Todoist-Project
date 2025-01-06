@@ -4,13 +4,24 @@ import { EllipsisOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import OptionsForTasks from "./OptionsForTasks";
 import ModalElement from "./ModalElement";
-export const SingleProject = ({ projectData, tasksData , setTasksData ,todoistObj}) => {
+export const SingleProject = ({
+  projectData,
+  tasksData,
+  dispatch,
+  todoistObj,
+}) => {
+  
+  console.log( "singlepage" , dispatch ) ;
   let param = useParams();
   let tempData = [...projectData];
-  const [ open , setopen ] = useState( false ) ;
+  const [open, setopen] = useState(false);
+  
+  
   tempData = tempData.filter((item) => item.id == param.id);
   let tempTasksData = [...tasksData];
   tempTasksData = tasksData.filter((item) => item.projectId == param.id);
+  
+  
   return tempData.length != 0 ? (
     <div style={{ width: "50%", margin: "auto", marginTop: "5%" }}>
       {" "}
@@ -43,7 +54,12 @@ export const SingleProject = ({ projectData, tasksData , setTasksData ,todoistOb
                     {item.description}
                   </p>
                 </div>
-                <OptionsForTasks selectedtask = { item } setTasksData = {setTasksData} todoistObj = {todoistObj} tasksData = {tasksData}>
+                <OptionsForTasks
+                  selectedtask={item}
+                  dispatch = {dispatch}
+                  todoistObj={todoistObj}
+                  tasksData={tasksData}
+                >
                   <EllipsisOutlined
                     style={{ fontSize: "1.5rem" }}
                     onClick={(e) => {
@@ -58,8 +74,30 @@ export const SingleProject = ({ projectData, tasksData , setTasksData ,todoistOb
       ) : (
         <></>
       )}
-    <ModalElement open = {open} setopen={setopen} projectData={projectData} setTasksData = {setTasksData} todoistObj ={todoistObj} />
-     <Button style={{ color : 'maroon' , fontSize : '1.1rem' , fontWeight : '600' , width : '100%' , justifyContent :'flex-start' , border : 'none' , padding: '0px'}} onClick={() => { setopen(true)}}>Add Task</Button> 
+      <ModalElement
+        open={open}
+        tasksData={tasksData}
+        setopen={setopen}
+        dispatch={dispatch}
+        projectData={projectData}
+        todoistObj={todoistObj}
+      />
+      <Button
+        style={{
+          color: "maroon",
+          fontSize: "1.1rem",
+          fontWeight: "600",
+          width: "100%",
+          justifyContent: "flex-start",
+          border: "none",
+          padding: "0px",
+        }}
+        onClick={() => {
+          setopen(true);
+        }}
+      >
+        Add Task
+      </Button>
     </div>
   ) : (
     <></>
