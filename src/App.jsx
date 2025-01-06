@@ -10,6 +10,13 @@ import { Projects } from "./components/Projects/Projects.jsx";
 import { SingleProject } from "./SingleProject.jsx";
 function App() {
   let todoistObj = new TodoistApi("0cb66c0fca00727467301d32ca815b8b18eecece");
+  
+  let initialstate = {
+    projectData : [] ,
+    tasksData : [] ,
+    sideBarCollapse : false 
+  }
+
   const [projectsData, setProjectsData] = useState([]);
   const [tasksData, setTasksData] = useState([]);
   const [sideBarCollapse, setsideBarCollapse] = useState(false);
