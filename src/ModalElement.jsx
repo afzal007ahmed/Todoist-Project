@@ -2,7 +2,7 @@ import { Modal, Button, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
 import SelectForProjects from "./SelectForProjects";
-const ModalElement = ({ open, setopen , projectData , setTasksData , todoistObj}) => {
+const ModalElement = ({ open, tasksData , dispatch , setopen , projectData  , todoistObj}) => {
   const [ content , setcontent ] = useState('') ;
   const [ desc , setdesc ] = useState('') ;
 
@@ -25,7 +25,8 @@ const ModalElement = ({ open, setopen , projectData , setTasksData , todoistObj}
     console.log( addTaskObj ) ;
     todoistObj.addTask( addTaskObj )
     .then((data) => { 
-       setTasksData(( prev ) => [...prev , data] ) ;
+      let tempData = { ...tasksData ,  data } ;
+      dispatch({ type : "add_task" , payload : tempData } ) ;
     }) 
     .catch(( err ) => {
       console.log( err ) ;

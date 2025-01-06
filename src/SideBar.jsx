@@ -1,23 +1,20 @@
 import Sider from "antd/es/layout/Sider";
-import { Menu } from "antd";
 import {
-  MenuFoldOutlined,
   DownOutlined,
   RightOutlined,
   PlusOutlined,
   EllipsisOutlined,
 } from "@ant-design/icons";
-import { Select, Button, Modal } from "antd";
+import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import ModalElement from "./ModalElement";
 import ModalElementAddProject from "./ModalElementAddProject";
 import ModalForOptions from "./ModalForOptions";
 const SideBar = ({
   projectsData,
-  setProjectsData,
+  dispatch ,
   todoistObj,
-  setTasksData,
   sideBarCollapse,
   tasksData,
 }) => {
@@ -90,9 +87,10 @@ const SideBar = ({
       {open ? (
         <ModalElement
           open={open}
+          tasksData = { tasksData }
+          dispatch= {dispatch} 
           setopen={setopen}
           projectData={projectsData}
-          setTasksData={setTasksData}
           todoistObj={todoistObj}
         />
       ) : (
