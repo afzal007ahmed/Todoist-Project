@@ -38,12 +38,24 @@ const OptionsForTasks = ({
         setmode( false ) ;
     }
 
+    function taskCompleted() {
+      let temp = {...selectedtask} ;
+      temp.isCompleted = true ;
+      todoistObj.updateTask( selectedtask.id , temp ) 
+      .then(( data ) => {
+        let tempData = tasksData.filter(( i ) => i.id != selectedtask.id ) ;
+        dispatch({ type: "update_task" , payload : tempData } ) ;
+      })
+      .catch((err ) => console.log(err)) ;
+    }
+
   return (
     <Popover
       trigger="hover"
       content={
         <>
           <Button style={{ width: "100%", border: "none" }} onClick={() => {setmode(true)}}>Edit</Button>
+          <Button style={{ width: "100%", border: "none" }} onClick={taskCompleted}>Completed</Button>
           { mode ? <Modal open = {mode} onCancel={handleCancel} closable = {false } onOk={editTask}>
               <textarea type = "text" value={taskname} onChange={(e) => { settaskname( e.target.value)} } style={{width:"100%" , border : '0.5px solid grey' }} />
               <textarea type = "text" value={taskdesc } onChange={(e) => { settaskdesc( e.target.value)} } style={{width:"100%" , border : '0.5px solid grey'}}/>
