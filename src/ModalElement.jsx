@@ -1,11 +1,15 @@
-import { Modal, Button, Select } from "antd";
+import { Modal, Button } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
 import SelectForProjects from "./SelectForProjects";
-const ModalElement = ({ open, setopen , projectData , setTasksData , todoistObj}) => {
+import { useDispatch, useSelector } from "react-redux";
+import { addSingleProject } from "./store/dataSlice";
+const ModalElement = ({ open, setopen , todoistObj}) => {
   const [ content , setcontent ] = useState('') ;
   const [ desc , setdesc ] = useState('') ;
 
+  let projectData = useSelector(state => state.data.projectData) ;
+  let dispatch = useDispatch() ;
   function handleClose() {
     setopen(false);
   }
@@ -25,7 +29,7 @@ const ModalElement = ({ open, setopen , projectData , setTasksData , todoistObj}
     console.log( addTaskObj ) ;
     todoistObj.addTask( addTaskObj )
     .then((data) => { 
-       setTasksData(( prev ) => [...prev , data] ) ;
+      dispatch(addSingleProject({data})) ;
     }) 
     .catch(( err ) => {
       console.log( err ) ;

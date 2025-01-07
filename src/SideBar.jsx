@@ -13,14 +13,14 @@ import { useEffect, useState } from "react";
 import ModalElement from "./ModalElement";
 import ModalElementAddProject from "./ModalElementAddProject";
 import ModalForOptions from "./ModalForOptions";
+import { useSelector } from "react-redux";
 const SideBar = ({
-  projectsData,
-  setProjectsData,
   todoistObj,
-  setTasksData,
   sideBarCollapse,
-  tasksData,
 }) => {
+
+  let projectsData = useSelector(state => state.data.projectData) ;
+  let tasksData = useSelector( state => state.data.tasksData ) ;
   const [open, setopen] = useState(false);
   const [open2, setopen2] = useState(false);
   const [arrowforFav, setarrowforFav] = useState(false);
@@ -91,8 +91,6 @@ const SideBar = ({
         <ModalElement
           open={open}
           setopen={setopen}
-          projectData={projectsData}
-          setTasksData={setTasksData}
           todoistObj={todoistObj}
         />
       ) : (
@@ -200,8 +198,6 @@ const SideBar = ({
                   >
                     <>
                       <ModalForOptions
-                        projectsData={projectsData}
-                        setProjectsData={setProjectsData}
                         item={item}
                         todoistObj={todoistObj}
                       >
@@ -269,9 +265,7 @@ const SideBar = ({
       {open2 ? (
         <ModalElementAddProject
           open2={open2}
-          setProjectsData={setProjectsData}
           todoistObj={todoistObj}
-          projectsData={projectsData}
           setopen2={setopen2}
         />
       ) : (
@@ -319,8 +313,6 @@ const SideBar = ({
                   >
                     <div>
                       <ModalForOptions
-                        projectsData={projectsData}
-                        setProjectsData={setProjectsData}
                         item={item}
                         todoistObj={todoistObj}
                       >

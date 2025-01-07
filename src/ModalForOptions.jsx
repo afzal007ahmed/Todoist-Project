@@ -1,24 +1,23 @@
 import { Button, Popover } from "antd";
 import EditModalProject from "./EditModalProject";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { deleteProject, updateProjects } from "./store/dataSlice";
 const ModalForOptions = ({
   children,
-  projectsData,
-  setProjectsData,
   item,
   todoistObj,
 }) => {
 
   const [ openModal , setopenModal ] = useState( false ) ;  
 
-  
+  let dispatch = useDispatch() ;
   function handleDeleteProject() {
-    let temp = projectsData.filter((i) =>{return  i.id != item.id });
-
     todoistObj
       .deleteProject(item.id)
       .then(() => { 
-        setProjectsData(temp)})
+        dispatch(deleteProject({item } ) ) ;
+      })
       .catch((err) => console.log(err));
   }
 
@@ -28,14 +27,7 @@ const ModalForOptions = ({
     todoistObj
       .updateProject(item.id, temp)
       .then((data) => {
-        console.log( 'color' , data ) ; 
-        temp = projectsData.map((i) => {
-          if (i.id == item.id) {
-            return data;
-          }
-          return i;
-         });
-        setProjectsData(temp);
+        dispatch(updateProjects({ data } ) ) ;
       })
       .catch((err) => console.log(err));
   }
@@ -48,9 +40,7 @@ const ModalForOptions = ({
     temp.isFavorite = false ;
     todoistObj.updateProject( item.id , temp ) 
     .then(( data ) => {
-        let tempData = projectsData.filter((i) => i.id != item.id) ;
-        tempData = [...tempData , data ] ;
-        setProjectsData( tempData ) ;
+      dispatch(updateProjects({ data } ) ) ;
     })
   }
   return (
@@ -75,8 +65,6 @@ const ModalForOptions = ({
         setopenModal={setopenModal}
         item={item}
         todoistObj={todoistObj}
-        projectsData={projectsData}
-        setProjectsData={setProjectsData}
       />
     </>
   );

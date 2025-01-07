@@ -1,14 +1,16 @@
 import { Modal, Select,Button, Switch } from "antd";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateProjects } from "./store/dataSlice";
 
 const EditModalProject = ({
   openModal,
   setopenModal,
   item,
   todoistObj,
-  projectsData,
-  setProjectsData,
 }) => {
+
+  let dispatch = useDispatch() ;
   const [inputValue, setinputValue] = useState(item.name || "");
   const [color, setcolor] = useState(item.color || "charcoal");
   const [ checked , setchecked ] = useState( false ) ;
@@ -29,11 +31,7 @@ const EditModalProject = ({
     todoistObj
       .updateProject(item.id, updatedItem)
       .then((data) => {
-        let updatedProjects = projectsData.map((i) =>
-          i.id === item.id ? data : i
-        );
-        console.log( data.color ) ;
-        setProjectsData(updatedProjects);
+        dispatch( updateProjects({ data } ) ) ;
       })
       .catch((err) => console.log(err));
   }

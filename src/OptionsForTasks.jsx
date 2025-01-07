@@ -1,13 +1,14 @@
 import { Popover, Button, Modal } from "antd";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateTasks } from "./store/dataSlice";
 
 const OptionsForTasks = ({
   children,
   selectedtask,
-  setTasksData,
   todoistObj,
-  tasksData,
 }) => {
+    let dispatch = useDispatch() ;
     const [ taskname , settaskname ] = useState('' || selectedtask.content) ;
     const [ taskdesc , settaskdesc ] = useState( '' || selectedtask.description);
     const [mode , setmode ] = useState(false) ;
@@ -17,8 +18,7 @@ const OptionsForTasks = ({
       temp.description  = taskdesc ;
       todoistObj.updateTask( selectedtask.id , temp ) 
       .then(( data ) => {
-        let tempData = tasksData.map(( item ) => item.id == selectedtask.id ? data : item )
-        setTasksData( tempData ) ; 
+        dispatch( updateTasks({ data } ) ) ;
       })
       setmode( false ) ;
     }
@@ -28,8 +28,7 @@ const OptionsForTasks = ({
       temp.isCompleted = true ;
       todoistObj.updateTask( selectedtask.id , temp ) 
       .then(( data ) => {
-        let tempData = tasksData.filter(( i ) => i.id != selectedtask.id ) ;
-        setTasksData(tempData) ;
+        dispatch( updateTasks( { data } ) ) ;
       })
       .catch((err ) => console.log(err)) ;
     }
@@ -37,8 +36,7 @@ const OptionsForTasks = ({
     function deleteTask() {
         todoistObj.deleteTask(selectedtask.id  )
         .then(() => {
-            let newData = tasksData.filter((item) => item.id != selectedtask.id) ;
-            setTasksData( newData ) ;
+            dispatch( deleteTask({ selectedtask } ) );
         })
         .catch(( err ) => console.log( err ) ) ;
         setmode( false ) ;

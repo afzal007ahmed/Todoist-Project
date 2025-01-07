@@ -1,12 +1,13 @@
 import { Modal, Button, Select, Switch } from "antd";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addSingleProject } from "./store/dataSlice";
 const ModalElementAddProject = ({
   open2,
-  setProjectsData,
   todoistObj,
-  projectsData,
   setopen2,
 }) => {
+  let dispatch = useDispatch() ;
   const [projectName, setProjectName] = useState("");
   const [projectColor, setProjectColor] = useState("charcoal");
   const [checkbox, setcheckbox] = useState(false);
@@ -31,10 +32,7 @@ const ModalElementAddProject = ({
     todoistObj
       .addProject(addProjectObj)
       .then((data) => {
-        console.log(data);
-        let temp = [...projectsData, data];
-        console.log(temp);
-        setProjectsData(temp);
+        dispatch(addSingleProject({data})) ;
       })
       .catch((err) => {
         console.log(err);

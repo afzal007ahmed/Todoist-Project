@@ -1,10 +1,12 @@
 import { Button } from "antd";
 import { EllipsisOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ModalForOptions from "../../ModalForOptions";
 import ModalElementAddProject from "../../ModalElementAddProject";
-export const Projects = ({ projectsData , setProjectsData , todoistObj}) => {
+export const Projects = ({ todoistObj}) => {
+  let projectsData = useSelector( state => state.data.projectData ) ;
   let tempData = [...projectsData];
   const [ open , setopen ] = useState( false ) ;
   let navigate = useNavigate();
@@ -14,6 +16,7 @@ export const Projects = ({ projectsData , setProjectsData , todoistObj}) => {
       return item.name.toLowerCase().indexOf(input.toLowerCase()) != -1;
     });
   }
+
   tempData = tempData.filter((item) => {
     return item.isInboxProject == false;
   });
@@ -74,8 +77,6 @@ export const Projects = ({ projectsData , setProjectsData , todoistObj}) => {
                   <div> 
                       <>
                         <ModalForOptions
-                          projectsData={projectsData}
-                          setProjectsData={setProjectsData}
                           item={item}
                           todoistObj={todoistObj}
                         >
@@ -91,7 +92,7 @@ export const Projects = ({ projectsData , setProjectsData , todoistObj}) => {
         })}
         
        {
-        open ? <ModalElementAddProject open2={open} setProjectsData = {setProjectsData} todoistObj ={todoistObj}   projectsData = {projectsData}  setopen2={setopen}  /> : <></>
+        open ? <ModalElementAddProject open2={open} todoistObj ={todoistObj}  setopen2={setopen}  /> : <></>
        }  
 
       <Button style={{ width : '100%' , border : 'none' , textAlign : 'left' , justifyContent : 'flex-start' , padding : '0px' , fontSize : '1.05rem' , fontWeight:'600' , color :'maroon'}} onClick={() => { setopen( true )}}>

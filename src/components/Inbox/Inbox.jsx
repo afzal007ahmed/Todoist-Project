@@ -1,7 +1,10 @@
 import { Button } from "antd";
 import { EllipsisOutlined } from "@ant-design/icons";
 import OptionsForTasks from "../../OptionsForTasks";
-const Inbox = ({ projectData, tasksData , setTasksData ,todoistObj}) => {
+import { useSelector } from "react-redux";
+const Inbox = ({ todoistObj}) => {
+  let projectData = useSelector( state => state.data.projectData ) ;
+  let tasksData = useSelector( state => state.data.tasksData ) ;
   let tempData = [...projectData];
   let projectIds = [];
 
@@ -67,7 +70,7 @@ const Inbox = ({ projectData, tasksData , setTasksData ,todoistObj}) => {
                   {item.description}
                 </p>
                 </div>
-                <OptionsForTasks selectedtask = { item } setTasksData = {setTasksData} todoistObj = {todoistObj} tasksData = {tasksData}>
+                <OptionsForTasks selectedtask = { item } todoistObj = {todoistObj} >
                   <EllipsisOutlined
                     style={{ fontSize: "1.5rem" }}
                     onClick={(e) => {

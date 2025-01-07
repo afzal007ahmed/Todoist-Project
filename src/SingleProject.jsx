@@ -4,7 +4,10 @@ import { EllipsisOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import OptionsForTasks from "./OptionsForTasks";
 import ModalElement from "./ModalElement";
-export const SingleProject = ({ projectData, tasksData , setTasksData ,todoistObj}) => {
+import { useSelector } from "react-redux";
+export const SingleProject = ({ todoistObj}) => {
+  let tasksData = useSelector( state => state.data.tasksData ) ;
+  let projectData = useSelector( state => state.data.projectData ) ;
   let param = useParams();
   let tempData = [...projectData];
   const [ open , setopen ] = useState( false ) ;
@@ -43,7 +46,7 @@ export const SingleProject = ({ projectData, tasksData , setTasksData ,todoistOb
                     {item.description}
                   </p>
                 </div>
-                <OptionsForTasks selectedtask = { item } setTasksData = {setTasksData} todoistObj = {todoistObj} tasksData = {tasksData}>
+                <OptionsForTasks selectedtask = { item }  todoistObj = {todoistObj} >
                   <EllipsisOutlined
                     style={{ fontSize: "1.5rem" }}
                     onClick={(e) => {
@@ -58,7 +61,7 @@ export const SingleProject = ({ projectData, tasksData , setTasksData ,todoistOb
       ) : (
         <></>
       )}
-    <ModalElement open = {open} setopen={setopen} projectData={projectData} setTasksData = {setTasksData} todoistObj ={todoistObj} />
+    <ModalElement open = {open} setopen={setopen}  todoistObj ={todoistObj} />
      <Button style={{ color : 'maroon' , fontSize : '1.1rem' , fontWeight : '600' , width : '100%' , justifyContent :'flex-start' , border : 'none' , padding: '0px'}} onClick={() => { setopen(true)}}>Add Task</Button> 
     </div>
   ) : (

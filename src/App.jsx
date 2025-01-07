@@ -1,4 +1,5 @@
 import { TodoistApi } from "@doist/todoist-api-typescript";
+import { useDispatch } from "react-redux";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout} from "antd";
@@ -8,24 +9,24 @@ import Inbox from "./components/Inbox/Inbox.jsx";
 import SideBar from "./SideBar.jsx";
 import { Projects } from "./components/Projects/Projects.jsx";
 import { SingleProject } from "./SingleProject.jsx";
+import { addDataProjects, addDataTasks } from "./store/dataSlice.js";
 function App() {
   let todoistObj = new TodoistApi("0cb66c0fca00727467301d32ca815b8b18eecece");
-  const [projectsData, setProjectsData] = useState([]);
-  const [tasksData, setTasksData] = useState([]);
   const [sideBarCollapse, setsideBarCollapse] = useState(false);
-
+  
+  let dispatch = useDispatch() ;
   function reverseCollapse() {
     setsideBarCollapse((prev) => !prev);
   }
 
 
 
-  useEffect(() => {
+  useEffect(() => { 
     todoistObj
       .getProjects()
       .then((data) => {
         console.log( data ) ;
-        setProjectsData(data);
+        dispatch( addDataProjects( data ) ) ;
       })
       .catch((err) => {
         console.log(err);
@@ -33,7 +34,7 @@ function App() {
     todoistObj
       .getTasks()
       .then((data) => {
-        setTasksData(data);
+        dispatch( addDataTasks( data ) ) ;
         console.log(data);
       })
       .catch((err) => console.log(err));
@@ -48,13 +49,9 @@ function App() {
       >
         <BrowserRouter>
           <SideBar
-            projectsData={projectsData} 
-            setProjectsData = {setProjectsData}
             todoistObj = {todoistObj}
-            setTasksData = {setTasksData}
             sideBarCollapse = {sideBarCollapse} 
             setsideBarCollapse = {setsideBarCollapse}
-            tasksData = { tasksData }
 
           />
           <div style={{paddingTop:'15px' , paddingLeft : '10px'}}>
@@ -65,7 +62,7 @@ function App() {
               path="/"
               element={
                 <>
-                  <Inbox projectData={projectsData} tasksData={tasksData}  setTasksData={setTasksData} todoistObj={todoistObj}/>
+                  <Inbox todoistObj={todoistObj}/>
                 </>
               }
             />
@@ -73,7 +70,7 @@ function App() {
               path="/projects"
               element={
                 <>
-                  <Projects projectsData={projectsData} setProjectsData = {setProjectsData} todoistObj = {todoistObj}/>
+                  <Projects todoistObj = {todoistObj}/>
                 </>
               }
             />
@@ -83,9 +80,6 @@ function App() {
                 <>
                   {" "}
                   <SingleProject
-                    projectData={projectsData}
-                    tasksData={tasksData}
-                    setTasksData = {setTasksData}
                     todoistObj = { todoistObj }
                   />
                 </>
@@ -94,6 +88,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </Layout>
+
     </>
   );
 }
