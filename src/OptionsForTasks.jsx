@@ -18,7 +18,7 @@ const OptionsForTasks = ({
       temp.description  = taskdesc ;
       todoistObj.updateTask( selectedtask.id , temp ) 
       .then(( data ) => {
-        dispatch( updateTasks({ data } ) ) ;
+        dispatch( updateTasks( data  ) ) ;
       })
       setmode( false ) ;
     }

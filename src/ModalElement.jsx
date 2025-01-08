@@ -29,7 +29,7 @@ const ModalElement = ({ open, setopen , todoistObj}) => {
     console.log( addTaskObj ) ;
     todoistObj.addTask( addTaskObj )
     .then((data) => { 
-      dispatch(addSingleProject({data})) ;
+      dispatch(addSingleProject(data)) ;
     }) 
     .catch(( err ) => {
       console.log( err ) ;

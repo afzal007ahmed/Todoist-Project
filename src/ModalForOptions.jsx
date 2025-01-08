@@ -27,7 +27,7 @@ const ModalForOptions = ({
     todoistObj
       .updateProject(item.id, temp)
       .then((data) => {
-        dispatch(updateProjects({ data } ) ) ;
+        dispatch(updateProjects(data  ) ) ;
       })
       .catch((err) => console.log(err));
   }
@@ -40,7 +40,7 @@ const ModalForOptions = ({
     temp.isFavorite = false ;
     todoistObj.updateProject( item.id , temp ) 
     .then(( data ) => {
-      dispatch(updateProjects({ data } ) ) ;
+      dispatch(updateProjects( data  ) ) ;
     })
   }
   return (

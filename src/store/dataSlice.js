@@ -26,9 +26,8 @@ const data = createSlice({
             state.tasksData = state.tasksData.map(( item ) => item.id != action.payload.id ? item : action.payload  ) ;
         },
         updateProjects : ( state , action ) => {
-            console.log('working') 
-            state.projectData = state.projectData.filter(( item ) => item.id != action.payload.id ) ;
-            state.projectData.push( action.payload ) ;
+            state.projectData = state.projectData.map(( item ) => item.id != action.payload.id ? item : action.payload ) ;
+            console.log( "working" ) ;
         },
         deleteTask : (state , action ) => {
             state.tasksData = state.tasksData.filter(( item ) => item.id != action.payload.id ) ;
